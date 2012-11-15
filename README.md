@@ -1,4 +1,4 @@
-2a-slider
+2a-tinySlider
 =========
 
 Bare Bones jQuery Element Slider
