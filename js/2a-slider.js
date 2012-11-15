@@ -6,6 +6,7 @@
 			slideHolder : "ul",
 			slide : "li",
 			slideNav : ".nav .wrapper",
+			arrowsWrap : ".arrows",
 			navBtns : {
 				left : "a.prev",
 				right : "a.next",
@@ -20,12 +21,13 @@
 			isAnimating : 0,
 			speed : 200,
 			auto : true,
-			delay : 6000
+			delay : 6000,
+			nav : true
 		}, options);
 		
-		// Hide nav when only one image
-		if (settings.slideCount() == 1) {
-			settings.container.find('.arrows,' + settings.slideNav).hide();
+		// Hide nav when only one image or nav is disabled
+		if (settings.slideCount() == 1 || settings.nav == false) {
+			settings.container.find(settings.arrowsWrap + ',' + settings.slideNav).hide();
 		}
 		// Create nav buttons
 		for(var i = 0; i < settings.slideCount(); i++) {
