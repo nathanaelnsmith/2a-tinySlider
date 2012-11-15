@@ -18,23 +18,23 @@ $('#slider').tinySlider();
 The following styles are necessary to make it display properly.
 
 ```html
-.slider {
+#slider {
 	width: 980px;
 	overflow: hidden;
 	position: relative;
 }
-.slider ul.slides {
+#slider ul.slides {
 	width: 980px;
 	height: 380px;
 	overflow: hidden;
 }
-.slider ul.slides li {
+#slider ul.slides li {
 	position: absolute;
 	top: 0px;
 	left: 0px;
 	display: none;
 }
-.slider ul.slides li.active {
+#slider ul.slides li.active {
 	z-index: 1;
 	display: block;
 }

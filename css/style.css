@@ -1,21 +1,21 @@
 /* Required Styles */
-.slider {
+#slider {
 	width: 980px;
 	overflow: hidden;
 	position: relative;
 }
-.slider ul.slides {
+#slider ul.slides {
 	width: 980px;
 	height: 380px;
 	overflow: hidden;
 }
-.slider ul.slides li {
+#slider ul.slides li {
 	position: absolute;
 	top: 0px;
 	left: 0px;
 	display: none;
 }
-.slider ul.slides li.active {
+#slider ul.slides li.active {
 	z-index: 1;
 	display: block;
 }
@@ -30,30 +30,28 @@
 	*display: inline;
     *zoom: 1;
 }
-.slider {
+#slider {
 	margin: 0 auto;
 }
-.slider ul.slides {
+#slider ul.slides {
 	padding: 0px;
 	list-style: none;
 }
-.slider a {
+#slider a {
 	text-decoration: none;
 }
-.nav a {
+#slider .nav a {
 	color: #000;
 	margin: 0 10px;
 }
-.nav a.active {
+#slider .nav a.active {
 	color: red;
 }
-.arrows {
-}
-.arrows a {
+#slider .arrows a {
 	font-size: 40px;
 	float: left;
 	color: #4580B2;
 }
-.arrows .next {
+#slider .arrows .next {
 	float: right;
 }
