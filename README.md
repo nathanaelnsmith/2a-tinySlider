@@ -5,7 +5,7 @@ Bare Bones jQuery Element Slider
 
 ## Description
 
-The slider is a minimalistic approach to jQuery image sliding. Instead of generating a bunch of code and forcing the developer to override it with styles, it simply adds the sliding functionality and relies on the developer to write the proper styling. The only markup generated is the numbered page numbers, which can easily be styled however you like.
+This slider is a minimalistic approach to jQuery image sliding. Instead of generating a bunch of code and forcing the developer to override it with styles, it simply adds the sliding functionality and relies on the developer to write the proper styling. The only markup generated is the numbered pagination, which can easily be styled however you like. The minified script is only 2kb.
 
 ## Usage
 
@@ -16,6 +16,7 @@ $('#slider').tinySlider();
 ```
 
 The following styles are necessary to make it display properly.
+
 ```html
 .slider {
 	width: 980px;
