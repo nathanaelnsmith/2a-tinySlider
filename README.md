@@ -9,13 +9,39 @@ The slider is a minimalistic approach to jQuery image sliding. Instead of genera
 
 ## Usage
 
-This plugin accepts many options allowing you to customize it's performance and use your own markup.
+After you've included jQuery and 2a-slider.js you initialize it as follows.
 
 ```html
 $('#slider').tinySlider();
 ```
 
+The following styles are necessary to make it display properly.
+```html
+.slider {
+	width: 980px;
+	overflow: hidden;
+	position: relative;
+}
+.slider ul.slides {
+	width: 980px;
+	height: 380px;
+	overflow: hidden;
+}
+.slider ul.slides li {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	display: none;
+}
+.slider ul.slides li.active {
+	z-index: 1;
+	display: block;
+}
+```
+
 ## Options
+
+This plugin accepts many options allowing you to customize it's performance and use your own markup.
 		
 ### slideHolder
 

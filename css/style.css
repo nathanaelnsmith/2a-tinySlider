@@ -1,22 +1,10 @@
-.horz-center {
-	*text-align: center;
-}
-.horz-center > * {
-	display: table;
-	margin: 0px auto;
-	*display: inline;
-    *zoom: 1;
-}
-
+/* Required Styles */
 .slider {
 	width: 980px;
-	margin: 0 auto;
-	position: relative;
 	overflow: hidden;
+	position: relative;
 }
 .slider ul.slides {
-	list-style: none;
-	padding: 0px;
 	width: 980px;
 	height: 380px;
 	overflow: hidden;
@@ -30,6 +18,24 @@
 .slider ul.slides li.active {
 	z-index: 1;
 	display: block;
+}
+
+/* Just to make it look prettier */
+.horz-center {
+	*text-align: center;
+}
+.horz-center > * {
+	display: table;
+	margin: 0px auto;
+	*display: inline;
+    *zoom: 1;
+}
+.slider {
+	margin: 0 auto;
+}
+.slider ul.slides {
+	padding: 0px;
+	list-style: none;
 }
 .slider a {
 	text-decoration: none;
