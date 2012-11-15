@@ -1,0 +1,41 @@
+<html>
+	<head>
+		<title>2a jQuery Slider Test</title>
+		<link rel="stylesheet" href="css/style.css" type="text/css" media="all" />
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
+		<script type="text/javascript" src="js/2a-slider.js"></script>
+		<script>
+			$(function() {
+				$('.slider').tinySlider();
+			});
+		</script>
+	</head>
+	<body>
+		<div class="slider">
+			<ul class="slides">
+				<li>
+					<a href="https://github.com/nathanaelnsmith/2a-slider" target="_blank">
+						<img src="http://placekitten.com/980/380" alt="" />
+					</a>
+				</li>
+				<li>
+					<a href="https://github.com/nathanaelnsmith/2a-slider" target="_blank">
+						<img src="http://placekitten.com/g/980/380" alt="" />
+					</a>
+				</li>
+				<li>
+					<a href="https://github.com/nathanaelnsmith/2a-slider" target="_blank">
+						<img src="http://placedog.com/980/380" alt="" />
+					</a>
+				</li>
+			</ul>
+			<div class="nav horz-center">
+				<div class="wrapper"></div>
+			</div>
+			<div class="arrows">
+				<a href="#" class="prev"><span class="arrow arrow-left">&lsaquo;</span></a>
+				<a href="#" class="next"><span class="arrow arrow-right">&rsaquo;</span></a>
+			</div>
+		</div>
+	</body>
+</html>

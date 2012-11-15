@@ -1,0 +1,53 @@
+.horz-center {
+	*text-align: center;
+}
+.horz-center > * {
+	display: table;
+	margin: 0px auto;
+	*display: inline;
+    *zoom: 1;
+}
+
+.slider {
+	width: 980px;
+	margin: 0 auto;
+	position: relative;
+	overflow: hidden;
+}
+.slider ul.slides {
+	list-style: none;
+	padding: 0px;
+	width: 980px;
+	height: 380px;
+	overflow: hidden;
+}
+.slider ul.slides li {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	display: none;
+}
+.slider ul.slides li.active {
+	z-index: 1;
+	display: block;
+}
+.slider a {
+	text-decoration: none;
+}
+.nav a {
+	color: #000;
+	margin: 0 10px;
+}
+.nav a.active {
+	color: red;
+}
+.arrows {
+}
+.arrows a {
+	font-size: 40px;
+	float: left;
+	color: #4580B2;
+}
+.arrows .next {
+	float: right;
+}
