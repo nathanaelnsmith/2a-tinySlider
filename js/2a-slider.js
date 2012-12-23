@@ -22,7 +22,8 @@
 			speed : 200,
 			auto : true,
 			delay : 6000,
-			nav : true
+			nav : true,
+			pause : true
 		}, options);
 		
 		// Hide nav when only one image or nav is disabled
@@ -60,11 +61,13 @@
 		$(function(){
 			if (settings.auto) {
 				autoRotate();
-				settings.container.hover(function(){ 
-					autoRotate('pause');
-				}, function() {
-					autoRotate();
-				});
+				if (settings.pause) {
+  				settings.container.hover(function(){ 
+  					autoRotate('pause');
+  				}, function() {
+  					autoRotate();
+  				});
+				}
 			}			
 		});
 		var autoRotate = function (action) {
