@@ -13,7 +13,7 @@
 				slide : "a"	
 			},
 			slideCount : function () {
-				return this.container.find(this.slideHolder + ' ' + this.slide).length;
+				return this.container.find(this.slideHolder + ' > ' + this.slide).length;
 			},
 			slideWidth : function () {
 				return this.container.find(this.slideHolder + ' ' + this.slide).width();
