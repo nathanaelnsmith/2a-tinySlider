@@ -5,7 +5,7 @@ A Simple jQuery Element Slider and Carousel
 
 ## Description
 
-This slider is a minimalistic approach to jQuery image sliding. Instead of generating code and forcing the developer to accommodate and override it, this plugin simply adds the sliding functionality and relies on the developer to write the proper styling. The only markup generated is the numbered pagination which can be customized with options and styled. The minified script is only 6kb.
+This slider is a minimalistic approach to jQuery image sliding. Instead of generating code and forcing the developer to accommodate and override it, this plugin simply adds the sliding functionality and relies on the developer to write the proper styling. The only markup generated is the numbered pagination which can be customized with options and styled. The minified script is only 3kb.
 
 ## Usage
 
@@ -103,7 +103,12 @@ Pause auto rotate when hovering over a slide.
 ### progress (Default: false)
 
 Enable a progress bar for auto rotate. Enabling this also enables auto rotate.
-Include <div class="progress"><div class="bar"></div></div> in slider container.
+
+Include in slider container.
+
+```html
+<div class="progress"><div class="bar"></div></div>
+```
 
 ### carousel (Default: false)
 
