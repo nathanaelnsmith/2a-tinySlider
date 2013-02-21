@@ -20,20 +20,26 @@
 			},
 			isAnimating : 0,
 			speed : 200,
-			auto : true,
+			auto : false,
 			delay : 6000,
 			nav : true,
 			pause : true,
-			progress : false
+			progress : false,
+			carousel : false
 		}, options);
-		
+		var s = settings;
+		// Get holder width when looping is off
+		if (s.carousel == true) {
+			settings.container.find(s.slideHolder).width((s.slideCount() * s.slideWidth()) + 'px');
+		}
 		// Hide nav when only one image or nav is disabled
 		if (settings.slideCount() == 1 || settings.nav == false) {
 			settings.container.find(settings.arrowsWrap + ',' + settings.slideNav).hide();
-		}
-		// Create nav buttons
-		for(var i = 0; i < settings.slideCount(); i++) {
-			$(settings.slideNav).append("<" + settings.navBtns.slide + " data-slide-id='" + i + "' href='#'>" + i + "</" + settings.navBtns.slide + ">");
+		} else {
+			// Create nav buttons
+			for(var i = 0; i < settings.slideCount(); i++) {
+				$(settings.slideNav).append("<" + settings.navBtns.slide + " data-slide-id='" + i + "' href='#'>" + i + "</" + settings.navBtns.slide + ">");
+			}
 		}
 		// Set active states
 		settings.container.find(settings.slideHolder + ' ' + settings.slide + ":first-child").addClass('active');
@@ -42,7 +48,11 @@
 		settings.container.find(settings.navBtns.right).click(function(e){
 			if(!settings.isAnimating) {
 				e.preventDefault();
-				nextSlide('right');
+				if (s.carousel == true) {
+					shiftCarousel('right');
+				} else {
+					nextSlide('right');
+				}
 				if (settings.auto) {
 					clearInterval(auto);
 					autoRotate();
@@ -52,7 +62,11 @@
 		settings.container.find(settings.navBtns.left).click(function(e){
 			if(!settings.isAnimating) {
 				e.preventDefault();
-				nextSlide('left');
+				if (s.carousel == true) {
+					shiftCarousel('left');
+				} else {
+					nextSlide('left');
+				}
 				if (settings.auto) {
 					clearInterval(auto);
 					autoRotate();
@@ -133,9 +147,26 @@
 			  }, settings.speed, function() {
 			    $(this).removeClass('active').hide();
 			});
-			$('.progress .bar').stop();
 	  		if (settings.progress) {
+				$('.progress .bar').stop();
 		  		progress();
+			}
+		}
+		
+		var shiftCarousel = function (direction) {
+			var cw = s.slideCount() * s.slideWidth(),
+				co = Math.abs(parseFloat(s.container.find(s.slideHolder).css('left'))),
+				cv = parseFloat(s.container.width()),
+				cp = parseFloat(s.container.css('paddingLeft'));
+			if((s.container.find(s.slideHolder + ':animated').length == 0) && 
+			((direction == 'left' && co != cp) || 
+			(direction == 'right' && (co + cv + cp) < cw))) {
+				s.container.find(s.slideHolder).animate({
+					left: ((direction == 'left') ? '+=' : '-=') + s.slideWidth()
+				}, {
+					duration: s.speed,
+					queue: false
+				});
 			}
 		}
 		
