@@ -28,53 +28,57 @@
 			carousel : false
 		}, options);
 		var s = settings;
-		// Get holder width when looping is off
+		// Setup carousel mode
 		if (s.carousel == true) {
-			settings.container.find(s.slideHolder).width((s.slideCount() * s.slideWidth()) + 'px');
+			s.container.find(s.slideHolder).width((s.slideCount() * s.slideWidth()) + 'px');
+		}
+		// Setup progress bar
+		if (s.progress) {
+			s.auto = true;
 		}
 		// Hide nav when only one image or nav is disabled
-		if (settings.slideCount() == 1 || settings.nav == false) {
-			settings.container.find(settings.arrowsWrap + ',' + settings.slideNav).hide();
+		if (s.slideCount() == 1 || s.nav == false) {
+			s.container.find(s.arrowsWrap + ',' + s.slideNav).hide();
 		} else {
 			// Create nav buttons
-			for(var i = 0; i < settings.slideCount(); i++) {
-				$(settings.slideNav).append("<" + settings.navBtns.slide + " data-slide-id='" + i + "' href='#'>" + i + "</" + settings.navBtns.slide + ">");
+			for(var i = 0; i < s.slideCount(); i++) {
+				$(s.slideNav).append("<" + s.navBtns.slide + " data-slide-id='" + i + "' href='#'>" + i + "</" + s.navBtns.slide + ">");
 			}
 		}
 		// Set active states
-		settings.container.find(settings.slideHolder + ' ' + settings.slide + ":first-child").addClass('active');
-		settings.container.find(settings.slideNav + ' ' + settings.navBtns.slide + ":first-child").addClass('active');
+		s.container.find(s.slideHolder + ' ' + s.slide + ":first-child").addClass('active');
+		s.container.find(s.slideNav + ' ' + s.navBtns.slide + ":first-child").addClass('active');
 		// Bind navigation
-		settings.container.find(settings.navBtns.right).click(function(e){
-			if(!settings.isAnimating) {
+		s.container.find(s.navBtns.right).click(function(e){
+			if(!s.isAnimating) {
 				e.preventDefault();
 				if (s.carousel == true) {
 					shiftCarousel('right');
 				} else {
 					nextSlide('right');
 				}
-				if (settings.auto) {
+				if (s.auto) {
 					clearInterval(auto);
 					autoRotate();
 				}
 			}
 		});
-		settings.container.find(settings.navBtns.left).click(function(e){
-			if(!settings.isAnimating) {
+		s.container.find(s.navBtns.left).click(function(e){
+			if(!s.isAnimating) {
 				e.preventDefault();
 				if (s.carousel == true) {
 					shiftCarousel('left');
 				} else {
 					nextSlide('left');
 				}
-				if (settings.auto) {
+				if (s.auto) {
 					clearInterval(auto);
 					autoRotate();
 				}
 			}
 		});
-		settings.container.find(settings.slideNav).children().click(function(e){
-			if(!settings.isAnimating) {
+		s.container.find(s.slideNav).children().click(function(e){
+			if(!s.isAnimating) {
 				e.preventDefault();
 				nextSlide(parseInt($(this).attr('data-slide-id')));
 			}
@@ -82,12 +86,12 @@
 		
 		// Start auto rotate
 		$(function(){
-			if (settings.auto) {
+			if (s.auto) {
 				autoRotate();
-				if (settings.pause) {
-	  				settings.container.find(settings.slide).hover(function(){ 
+				if (s.pause) {
+	  				s.container.find(s.slide).hover(function(){ 
 	  					autoRotate('pause');
-	  					if (settings.progress) {
+	  					if (s.progress) {
 	  						progress('pause');
 	  					}
 	  				}, function() {
@@ -102,52 +106,52 @@
 			} else {
 				auto = window.setInterval( function() { 
 					nextSlide('right');
-				}, settings.delay);
-	  			if (settings.progress) {
+				}, s.delay);
+	  			if (s.progress) {
 					progress();
 				}
 			}
 		}
 		
 		var nextSlide = function (direction) {
-			var currentSlide = settings.container.find(settings.slideHolder + ' ' + settings.slide + '.active').index(), nextSlide, animateFrom, animateTo;
-			settings.isAnimating = 1;
+			var currentSlide = s.container.find(s.slideHolder + ' ' + s.slide + '.active').index(), nextSlide, animateFrom, animateTo;
+			s.isAnimating = 1;
 			if(typeof direction === 'number') {
 				nextSlide = direction;
 				direction = (nextSlide > currentSlide) ? 'right' : 'left';
 			}
 			if (direction == 'right') {
 				if (typeof nextSlide !== 'number') {
-					nextSlide = (currentSlide == (settings.slideCount() - 1)) ? 0 : currentSlide + 1;
+					nextSlide = (currentSlide == (s.slideCount() - 1)) ? 0 : currentSlide + 1;
 				}
-				animateFrom = settings.slideWidth();
-				animateTo = '-=' + settings.slideWidth();
+				animateFrom = s.slideWidth();
+				animateTo = '-=' + s.slideWidth();
 			} else {
 				if (typeof nextSlide !== 'number') {
-					nextSlide = (currentSlide == 0) ? settings.slideCount() - 1 : currentSlide - 1;
+					nextSlide = (currentSlide == 0) ? s.slideCount() - 1 : currentSlide - 1;
 				}
-				animateFrom = -settings.slideWidth();
-				animateTo = '+=' + settings.slideWidth();
+				animateFrom = -s.slideWidth();
+				animateTo = '+=' + s.slideWidth();
 			}
 			// Animate next slide
-			settings.container.find(settings.slideHolder + ' ' + settings.slide +  ':eq(' + nextSlide + ')')
+			s.container.find(s.slideHolder + ' ' + s.slide +  ':eq(' + nextSlide + ')')
 			  .css('left',animateFrom)
 			  .show()
 			  .animate({
 			  		left: animateTo
-			    }, settings.speed, 
+			    }, s.speed, 
 			    function() {
 				    $(this).addClass('active');
-				    settings.isAnimating = 0;
-				    settings.container.find(settings.slideNav + ' ' + settings.navBtns.slide + ":eq(" + nextSlide + ")").addClass('active').siblings().removeClass('active');
+				    s.isAnimating = 0;
+				    s.container.find(s.slideNav + ' ' + s.navBtns.slide + ":eq(" + nextSlide + ")").addClass('active').siblings().removeClass('active');
 			  });
 			// Animate active slide
-			settings.container.find(settings.slideHolder + ' ' + settings.slide + '.active').animate({
+			s.container.find(s.slideHolder + ' ' + s.slide + '.active').animate({
 			    left: animateTo
-			  }, settings.speed, function() {
+			  }, s.speed, function() {
 			    $(this).removeClass('active').hide();
 			});
-	  		if (settings.progress) {
+	  		if (s.progress) {
 				$('.progress .bar').stop();
 		  		progress();
 			}
@@ -176,7 +180,7 @@
 				$('.progress .bar').animate({
 					width: '100%'
 				}, {
-					duration: settings.delay, 
+					duration: s.delay, 
 					easing: 'linear',
 					queue: false
 				});

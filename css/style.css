@@ -47,6 +47,11 @@
 #slider .nav a.active {
 	color: red;
 }
+#slider .arrows {
+	overflow: hidden;
+	position: relative;
+	top: -35px;
+}
 #slider .arrows a {
 	font-size: 40px;
 	float: left;
