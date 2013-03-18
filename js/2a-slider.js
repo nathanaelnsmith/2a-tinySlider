@@ -119,6 +119,7 @@
 		}
 		
 		var nextSlide = function (direction) {
+			s.container.trigger('nextSlide');
 			var currentSlide = s.container.find(s.slideHolder + ' ' + s.slide + '.active').index(), nextSlide, animateFrom, animateTo;
 			s.isAnimating = 1;
 			if(typeof direction === 'number') {
