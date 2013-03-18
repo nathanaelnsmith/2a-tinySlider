@@ -25,7 +25,8 @@
 			nav : true,
 			pause : true,
 			progress : false,
-			carousel : false
+			carousel : false,
+			loop : false
 		}, options);
 		var s = settings;
 		// Setup carousel mode
@@ -104,8 +105,12 @@
 			if(action == 'pause') {
 				clearInterval(auto);
 			} else {
-				auto = window.setInterval( function() { 
-					nextSlide('right');
+				auto = window.setInterval( function() {
+					if (s.carousel) {
+						shiftCarousel('right');
+					} else {
+						nextSlide('right');
+					}
 				}, s.delay);
 	  			if (s.progress) {
 					progress();
