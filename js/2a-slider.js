@@ -29,7 +29,6 @@
 				carousel : false,
 				loop : false
 			}, options);
-			
 			$(this).data('s', settings);
 			var s = $(this).data('s');
 						
@@ -41,15 +40,8 @@
 			if (s.progress) {
 				s.auto = true;
 			}
-			// Hide nav when only one image or nav is disabled
-			if (s.slideCount() == 1 || s.nav == false) {
-				s.container.find(s.arrowsWrap + ',' + s.slideNav).hide();
-			} else {
-				// Create nav buttons
-				for(var i = 0; i < s.slideCount(); i++) {
-					$(s.slideNav).append("<" + s.navBtns.slide + " data-slide-id='" + i + "' href='#'>" + i + "</" + s.navBtns.slide + ">");
-				}
-			}
+
+			this.tinySlider('navCheck');
 			
 			// Set active states
 			s.container.find(s.slideHolder + ' > ' + s.slide + ":first-child").addClass('active');
@@ -88,7 +80,7 @@
 				}
 			});
 			s.container.find(s.slideNav).children().click(function(e){
-				if(!s.isAnimating) {
+				if(!s.isAnimating && !$(this).hasClass('active')) {
 					e.preventDefault();
 					nextSlide(parseInt($(this).attr('data-slide-id')));
 				}
@@ -205,18 +197,30 @@
 		currentSlide : function () {
 			var s = $(this).data('s');
 			return s.container.find(s.slideHolder + ' > ' + s.slide + '.active').index() + 1;
+		},
+		navCheck : function() {
+			var s = $(this).data('s');
+			// Hide nav when only one image or nav is disabled
+			if (s.slideCount() == 1 || s.nav == false) {
+				s.container.find(s.arrowsWrap + ',' + s.slideNav).hide();
+			} else {
+				// Create nav buttons
+				s.container.find(s.arrowsWrap + ',' + s.slideNav).show();
+				for(var i = 0; i < s.slideCount(); i++) {
+					s.container.find(s.slideNav).append("<" + s.navBtns.slide + " data-slide-id='" + i + "' href='#'>" + i + "</" + s.navBtns.slide + ">");
+				}
+			}
 		}
+
 	};
 	
 	$.fn.tinySlider = function( method ) {
 		
 		if ( methods[method] ) {
 	      return methods[ method ].apply( this, Array.prototype.slice.call( arguments, 1 ));
-	    } else if ( typeof method === 'object' || ! method ) {
+	    } else if ( (typeof method === 'object' || ! method) && $(this).length > 0) {
 	      return methods.init.apply( this, arguments );
-	    } else {
-	      $.error( 'Method ' +  method + ' does not exist on jQuery.tinySlider' );
-	    }  
+	    }
 		
 	};
 })( jQuery );
