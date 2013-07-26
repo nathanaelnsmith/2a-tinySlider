@@ -5,19 +5,32 @@
 	position: relative;
 }
 #slider ul.slides {
-	width: 980px;
-	height: 380px;
 	overflow: hidden;
 }
-#slider ul.slides li {
+
+/* Slideshow Mode */
+#slider.slideshow ul.slides {
+	width: 980px;
+	height: 380px;
+}
+#slider.slideshow ul.slides li {
 	position: absolute;
 	top: 0px;
 	left: 0px;
 	display: none;
 }
-#slider ul.slides li.active {
+#slider.slideshow ul.slides li.active {
 	z-index: 1;
 	display: block;
+}
+
+/* Carousel Mode */
+#slider.carousel ul.slides {
+  position: relative;
+  left: 0;
+}
+#slider.carousel ul.slides li {
+  float: left;
 }
 
 /* Just to make it look prettier */

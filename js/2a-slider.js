@@ -19,9 +19,18 @@
 				slideWidth : function () {
 					return this.container.find(this.slideHolder + ' > ' + this.slide).width();
 				},
+				carouselMethods : {
+  				currentOffset : function () {
+    				return Math.abs(parseFloat(settings.container.find(settings.slideHolder).css('left')));
+  				},
+  				containerWidth : function () {
+  				  this.width = settings.slideCount() * settings.slideWidth();
+  				  settings.container.find(settings.slideHolder).width(this.width);
+  				}
+				},
 				isAnimating : 0,
 				speed : 200,
-				auto : true,
+				auto : false,
 				delay : 6000,
 				nav : true,
 				pause : true,
@@ -30,11 +39,19 @@
 				loop : false
 			}, options);
 			s = methods.s = settings;
+			$(this).data('s', s);
 						
 			// Setup carousel mode
 			if (s.carousel) {
-				s.container.find(s.slideHolder).width((s.slideCount() * s.slideWidth()) + 'px');
+				s.container.addClass('carousel');
+				$(window).load(function(){
+				  s.carouselMethods.containerWidth();
+			  });
+			} else {
+  			s.container.addClass('slideshow');
 			}
+			
+			// run setup functions
 			methods.navCheck();
 			methods.bindEvents();
 			
@@ -79,13 +96,14 @@
 			}
 		},
 		shiftCarousel : function (direction) {
-			var cw = s.slideCount() * s.slideWidth(),
-				co = Math.abs(parseFloat(s.container.find(s.slideHolder).css('left'))),
+		  var s = methods.s,
+		    cw = s.carouselMethods.width,
+				co = s.carouselMethods.currentOffset(),
 				cv = parseFloat(s.container.width()),
 				cp = parseFloat(s.container.css('paddingLeft'));
-			if((s.container.find(s.slideHolder + ':animated').length == 0) && 
-			((direction == 'left' && co != cp) || 
-			(direction == 'right' && (co + cv + cp) < cw))) {
+			if((s.container.find(s.slideHolder + ':animated').length == 0) && // slider is not animating
+			((direction == 'left' && co != cp) || // shift left when not at the beginning
+			(direction == 'right' && (co + cv + cp + s.slideWidth()) <= cw))) { // shift right when not at the end
 				s.container.find(s.slideHolder).animate({
 					left: ((direction == 'left') ? '+=' : '-=') + s.slideWidth()
 				}, {
@@ -160,7 +178,7 @@
 			s.container.find(s.navBtns.right).click(function(e){
 				if(!s.isAnimating) {
 					e.preventDefault();
-					if (s.carousel == true) {
+					if (s.carousel) {
 						methods.shiftCarousel('right');
 					} else {
 						methods.nextSlide('right');
@@ -191,7 +209,7 @@
 					methods.nextSlide(parseInt($(this).attr('data-slide-id')));
 				}
 			});
-			if (s.pause) {
+			if (s.pause && s.auto) {
   				s.container.find(s.slide).hover(function(){ 
   					methods.autoRotate('pause');
   					if (s.progress) {
