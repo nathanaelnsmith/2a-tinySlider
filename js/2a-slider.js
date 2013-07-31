@@ -4,6 +4,7 @@
 		init : function ( options ) {
 			var s, settings = $.extend({
 				container : this,
+				slideWrapper: this,
 				slideHolder : "ul",
 				slide : "li",
 				slideNav : ".nav .wrapper",
@@ -17,7 +18,7 @@
 					return this.container.find(this.slideHolder + ' > ' + this.slide).length;
 				},
 				slideWidth : function () {
-					return this.container.find(this.slideHolder + ' > ' + this.slide).width();
+					return this.container.find(this.slideHolder + ' > ' + this.slide).outerWidth();
 				},
 				carouselMethods : {
   				currentOffset : function () {
@@ -26,7 +27,11 @@
   				containerWidth : function () {
   				  this.width = settings.slideCount() * settings.slideWidth();
   				  settings.container.find(settings.slideHolder).width(this.width);
-  				}
+  				},
+  				visibleSlideCount : function () {
+    				return parseFloat(settings.slideWrapper.width()) / settings.slideWidth();
+  				},
+  				currentSlideSet : 0
 				},
 				isAnimating : 0,
 				speed : 200,
@@ -36,21 +41,31 @@
 				pause : true,
 				progress : false,
 				carousel : false,
-				loop : false
+				loop : false,
+				shiftCarouselBy : 1,
+				startingOffset : function () {
+  				return 0;
+				},
+				currentSlideSet : function (current) {
+  				return true;
+				}
 			}, options);
 			s = methods.s = settings;
 			$(this).data('s', s);
-						
+
 			// Setup carousel mode
 			if (s.carousel) {
 				s.container.addClass('carousel');
 				$(window).load(function(){
 				  s.carouselMethods.containerWidth();
+				  s.container.find(s.slideHolder).animate({
+    				left: '-=' +  s.startingOffset()
+    			});
 			  });
 			} else {
   			s.container.addClass('slideshow');
 			}
-			
+						
 			// run setup functions
 			methods.navCheck();
 			methods.bindEvents();
@@ -95,25 +110,28 @@
 				});
 			}
 		},
-		shiftCarousel : function (direction) {
-		  var s = methods.s,
-		    cw = s.carouselMethods.width,
-				co = s.carouselMethods.currentOffset(),
-				cv = parseFloat(s.container.width()),
-				cp = parseFloat(s.container.css('paddingLeft'));
+		shiftCarousel : function (direction, s) {
+		  var cw = s.carouselMethods.width,
+  				co = s.carouselMethods.currentOffset(),
+  				cv = parseFloat(s.slideWrapper.width()),
+  				cp = parseFloat(s.slideWrapper.css('paddingLeft'));
 			if((s.container.find(s.slideHolder + ':animated').length == 0) && // slider is not animating
-			((direction == 'left' && co != cp) || // shift left when not at the beginning
-			(direction == 'right' && (co + cv + cp + s.slideWidth()) <= cw))) { // shift right when not at the end
+			((direction == 'left' && co != 0) || // shift left when not at the beginning
+			(direction == 'right' && (co + cv + s.slideWidth()) <= cw))) { // shift right when not at the end
 				s.container.find(s.slideHolder).animate({
-					left: ((direction == 'left') ? '+=' : '-=') + s.slideWidth()
+					left: ((direction == 'left') ? '+=' : '-=') + (s.slideWidth() * s.shiftCarouselBy)
 				}, {
 					duration: s.speed,
-					queue: false
+					queue: false,
+					complete: function () {
+					  (direction == 'left') ? s.carouselMethods.currentSlideSet-- : s.carouselMethods.currentSlideSet++;
+					  s.currentSlideSet(s.carouselMethods.currentSlideSet);
+					}
 				});
 			}
 		},
-		nextSlide : function (direction) {
-			var s = methods.s, currentSlide = s.container.find(s.slideHolder + ' > ' + s.slide + '.active').index(), nextSlide, animateFrom, animateTo;
+		nextSlide : function (direction, s) {
+			var currentSlide = s.container.find(s.slideHolder + ' > ' + s.slide + '.active').index(), nextSlide, animateFrom, animateTo;
 			s.isAnimating = 1;
 			if(typeof direction === 'number') {
 				nextSlide = direction;
@@ -179,9 +197,9 @@
 				if(!s.isAnimating) {
 					e.preventDefault();
 					if (s.carousel) {
-						methods.shiftCarousel('right');
+						methods.shiftCarousel('right', s);
 					} else {
-						methods.nextSlide('right');
+						methods.nextSlide('right', s);
 					}
 					if (s.auto) {
 						clearInterval(auto);
@@ -193,9 +211,9 @@
 				if(!s.isAnimating) {
 					e.preventDefault();
 					if (s.carousel == true) {
-						methods.shiftCarousel('left');
+						methods.shiftCarousel('left', s);
 					} else {
-						methods.nextSlide('left');
+						methods.nextSlide('left', s);
 					}
 					if (s.auto) {
 						clearInterval(auto);
